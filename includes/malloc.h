@@ -10,7 +10,7 @@
 
 #define TINY_HEAP 4 * getpagesize()
 #define TINY_BLOCK TINY_HEAP / 128
-#define SMALL_HEAP 16 * getpagesize()
+#define SMALL_HEAP 32 * getpagesize()
 #define SMALL_BLOCK SMALL_HEAP / 128
 
 #define BLOCK_SHIFT(start) ((void *)start + sizeof(t_block))
@@ -29,6 +29,7 @@ typedef struct t_heap {
 	size_t total_size;
 	size_t free_size;
 	size_t used_size;
+	size_t nb_block;
 } t_heap;
 
 typedef struct t_block {

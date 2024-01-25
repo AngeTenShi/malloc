@@ -39,12 +39,9 @@ size_t get_heap_size(size_t size)
 
 enum e_heap_type get_type(size_t size)
 {
-	enum e_heap_type type;
 	if (size <= (size_t)TINY_BLOCK)
-		type = TINY;
-	else if (size <= (size_t)SMALL_BLOCK)
-		type = SMALL;
-	else
-		type = LARGE;
-	return (type);
+		return(TINY);
+	if (size <= (size_t)SMALL_BLOCK)
+		return(SMALL);
+	return(LARGE);
 }

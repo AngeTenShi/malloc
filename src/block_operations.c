@@ -12,9 +12,11 @@ void block_init(t_heap *heap, size_t size)
 	block->prev = NULL;
 	heap->block = block;
 	heap->free_size -= sizeof(t_block);
+	heap->used_size += sizeof(t_block);
+	heap->nb_block = 1;
 }
 
-void split_block(t_block *block, size_t size)
+void split_block(t_block *block, size_t size, t_heap *heap)
 {
 	if (block->size == size)
 		return ;
@@ -27,6 +29,9 @@ void split_block(t_block *block, size_t size)
 	new_block->prev = block;
 	block->next = new_block;
 	block->size = size;
+	heap->free_size -= sizeof(t_block);
+	heap->used_size += sizeof(t_block);
+	heap->nb_block += 1;
 }
 
 t_block *find_free_block(enum e_heap_type type, size_t size)
@@ -49,7 +54,7 @@ t_block *find_free_block(enum e_heap_type type, size_t size)
 					block->free = 0;
 					heap->free_size -= size;
 					heap->used_size += size;
-					split_block(block, size);
+					split_block(block, size, heap);
 					return (block);
 				}
 				block = block->next;
