@@ -37,6 +37,10 @@ void dump_hex_block()
 		heap = heap->next;
 	}
 	pthread_mutex_unlock(&g_mutex);
+	struct rusage usage;
+	getrusage(RUSAGE_SELF, &usage);
+	ft_putnbr_fd(usage.ru_minflt, 1);
+	ft_putstr_fd("\n", 1);
 }
 
 void show_alloc_mem()
@@ -50,12 +54,12 @@ void show_alloc_mem()
 		ft_putstr_fd(heap->type == TINY ? "TINY" : heap->type == SMALL ? "SMALL" : "LARGE", 1);
 		ft_putstr_fd(" : 0x", 1);
 		print_hex((size_t)heap);
+		ft_putchar_fd(' ', 1);
+		ft_putnbr_fd(heap->nb_block, 1);
 		ft_putstr_fd("\n", 1);
 		block = heap->block;
 		while (block != NULL)
 		{
-			if (block->free == 0)
-			{
 				ft_putstr_fd("0x", 1);
 				print_hex((size_t)BLOCK_SHIFT(block));
 				ft_putstr_fd(" - ", 1);
@@ -64,14 +68,13 @@ void show_alloc_mem()
 				ft_putstr_fd(" : ", 1);
 				ft_putnbr_fd(block->size, 1);
 				ft_putstr_fd(" bytes\n", 1);
-			}
 			block = block->next;
 		}
-		total += heap->used_size;
+		total += heap->total_size;
 		heap = heap->next;
 	}
 	ft_putstr_fd("Total : ", 1);
 	ft_putnbr_fd(total, 1);
-	ft_putstr_fd(" bytes\n", 1);
+	ft_putstr_fd(" bytes blocks and heap included\n", 1);
 	pthread_mutex_unlock(&g_mutex);
 }

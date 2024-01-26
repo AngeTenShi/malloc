@@ -6,12 +6,13 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "../libft/libft.h"
 
 #define TINY_HEAP 4 * getpagesize()
 #define TINY_BLOCK TINY_HEAP / 128
 #define SMALL_HEAP 32 * getpagesize()
-#define SMALL_BLOCK SMALL_HEAP / 128
+#define SMALL_BLOCK 1024
 
 #define BLOCK_SHIFT(start) ((void *)start + sizeof(t_block))
 

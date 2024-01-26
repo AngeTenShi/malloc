@@ -5,11 +5,13 @@ void *create_or_append_heap(size_t size, enum e_heap_type type)
 	t_heap *heap;
 	t_heap *tmp;
 	size += sizeof(t_block) + sizeof(t_heap);
-	if ((heap = (t_heap *)mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
+	if ((heap = (t_heap *)mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0)) == MAP_FAILED)
 		return (NULL);
+	ft_bzero(heap, sizeof(heap));
 	heap->total_size = size; // size of heap and block included
 	heap->free_size = size - sizeof(t_heap);
 	heap->used_size = 0;
+	heap->nb_block = 0;
 	heap->next = NULL;
 	heap->type = type;
 	block_init(heap, heap->free_size); // sizeof the block will be changed in block_init

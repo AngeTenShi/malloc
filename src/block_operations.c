@@ -2,7 +2,7 @@
 
 void block_init(t_heap *heap, size_t size)
 {
-	void *address = heap + sizeof(t_heap);
+	void *address = (void *)heap + sizeof(t_heap);
 	t_block *block = (t_block *)address;
 	if (heap->type == LARGE)
 		size -= sizeof(t_block);
