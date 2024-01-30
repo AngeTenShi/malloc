@@ -46,9 +46,8 @@ extern pthread_mutex_t g_mutex;
 void *malloc(size_t size);
 void free(void *ptr);
 void *realloc(void *ptr, size_t size);
+void show_alloc_mem();
 
-void show_alloc_mem(void);
-void show_alloc_history(void);
 void dump_hex_block();
 
 void	*create_or_append_heap(size_t size, enum e_heap_type type);
